@@ -1,0 +1,115 @@
+@inherits LayoutComponentBase
+
+<div class="page">
+    <div id="titlebar">
+        <div id="drag-region">
+            <div id="window-title">
+                <img class="icon" srcset="icons/favicon.ico" />
+                <span>Electron quick start</span>
+            </div>
+            <div id="window-controls">
+
+                <div class="button" id="min-button" @onclick="RestoreElectronApplication">
+                    <img class="icon" srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x" draggable="false" />
+                </div>
+                @if (maximized)
+                {
+                    <div class="button" @onclick="RestorescreenApplication">
+                        <img class="icon" srcset="icons/restore-w-10.png 1x, icons/restore-w-12.png 1.25x, icons/restore-w-15.png 1.5x, icons/restore-w-15.png 1.75x, icons/restore-w-20.png 2x, icons/restore-w-20.png 2.25x, icons/restore-w-24.png 2.5x, icons/restore-w-30.png 3x, icons/restore-w-30.png 3.5x" draggable="false" />
+                    </div>
+                }
+                else
+                {
+                    <div class="button" @onclick="FullscreenApplication">
+                        <img class="icon" srcset="icons/max-w-10.png 1x, icons/max-w-12.png 1.25x, icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, icons/max-w-20.png 2x, icons/max-w-20.png 2.25x, icons/max-w-24.png 2.5x, icons/max-w-30.png 3x, icons/max-w-30.png 3.5x" draggable="false" />
+                    </div>
+                }
+                <div class="button" id="close-button" @onclick="CloseElectronApplication">
+                    <img class="icon" srcset="icons/close-w-10.png 1x, icons/close-w-12.png 1.25x, icons/close-w-15.png 1.5x, icons/close-w-15.png 1.75x, icons/close-w-20.png 2x, icons/close-w-20.png 2.25x, icons/close-w-24.png 2.5x, icons/close-w-30.png 3x, icons/close-w-30.png 3.5x" draggable="false" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <NavMenu @ref="navmenu" />
+    </div>
+    <div class="main">
+        <ul class="nav nav-pills">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                @foreach (var link in listnavlink)
+                {
+                    <NavLink class="nav-link" href="@link.Href" Match="NavLinkMatch.All">
+                        <span class="oi oi-@link.Icon" aria-hidden="true"></span>@link.Name
+                    </NavLink>
+                    <button class="btn btn-danger" @onclick="()=>DeleteObjectNavlink(link)">X</button>
+
+                }
+            </div>
+        </ul>
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>
+@using ElectronNET.API;
+@using ElectronNET.API.Entities;
+@using Components;
+@inject NavigationManager NavigationManager;
+@code{
+    List<TabClass> listnavlink = new List<TabClass>();
+    NavMenu navmenu;
+    protected override async Task OnInitializedAsync()
+    {
+        maximized = false;
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        navmenu.SetListNavlink(listnavlink);
+    }
+    private bool maximized = false;
+    private void CloseElectronApplication()
+    {
+        Electron.App.Quit();
+    }
+    private void RestoreElectronApplication()
+    {
+        var menuitem = new MenuItem { Role = MenuRole.unhide, Label = "Развернуть" };
+        menuitem.Click += HideTrayIcon;
+        Electron.Tray.Show(@"./StartMonitor/wwwroot/YourPNGandPath.png", menuitem);
+        var mainWindows = Electron.WindowManager.BrowserWindows.First();
+        mainWindows.Hide();
+    }
+    private void FullscreenApplication()
+    {
+        var mainWindows = Electron.WindowManager.BrowserWindows.First();
+        mainWindows.SetFullScreen(true);
+        maximized = true;
+    }
+    private void RestorescreenApplication()
+    {
+        var mainWindows = Electron.WindowManager.BrowserWindows.First();
+        mainWindows.SetFullScreen(false);
+        maximized = false;
+    }
+    private void HideTrayIcon()
+    {
+        Electron.Tray.Destroy();
+        var mainWindows = Electron.WindowManager.BrowserWindows.First();
+        mainWindows.Show();
+    }
+    private void DeleteObjectNavlink(TabClass tab)
+    {
+        listnavlink.Remove(tab);
+        if (listnavlink.Count > 0)
+        {
+            NavigationManager.NavigateTo(listnavlink[listnavlink.Count-1].Href);
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        navmenu.SetListNavlink(listnavlink);
+    }
+}
