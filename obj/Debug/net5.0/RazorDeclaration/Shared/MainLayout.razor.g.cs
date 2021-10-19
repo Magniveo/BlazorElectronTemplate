@@ -83,21 +83,21 @@ using BlazorElectronTemplate.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 55 "C:\Users\mag\Documents\BlazorElectronTemplate\BlazorElectronTemplate\Shared\MainLayout.razor"
+#line 56 "C:\Users\mag\Documents\BlazorElectronTemplate\BlazorElectronTemplate\Shared\MainLayout.razor"
 using ElectronNET.API;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 56 "C:\Users\mag\Documents\BlazorElectronTemplate\BlazorElectronTemplate\Shared\MainLayout.razor"
+#line 57 "C:\Users\mag\Documents\BlazorElectronTemplate\BlazorElectronTemplate\Shared\MainLayout.razor"
 using ElectronNET.API.Entities;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 57 "C:\Users\mag\Documents\BlazorElectronTemplate\BlazorElectronTemplate\Shared\MainLayout.razor"
+#line 58 "C:\Users\mag\Documents\BlazorElectronTemplate\BlazorElectronTemplate\Shared\MainLayout.razor"
 using Components;
 
 #line default
@@ -111,7 +111,7 @@ using Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 59 "C:\Users\mag\Documents\BlazorElectronTemplate\BlazorElectronTemplate\Shared\MainLayout.razor"
+#line 60 "C:\Users\mag\Documents\BlazorElectronTemplate\BlazorElectronTemplate\Shared\MainLayout.razor"
       
     List<TabClass> listnavlink = new List<TabClass>();
     NavMenu navmenu;
