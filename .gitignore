@@ -1,2 +1,4 @@
 /obj/Host/node_modules
+bin
 /bin
+/bin/*/

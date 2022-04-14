@@ -36,15 +36,17 @@
     </div>
     <div class="main">
         <ul class="nav nav-pills">
-            <div class="navbar" role="group" aria-label="Basic mixed styles example">
+            <div role="group" style="margin-left:0px;margin-top:0px">
                 @foreach (var link in listnavlink)
                 {
-                    <NavLink class="btn btn-sm btn-outline-secondary" href="@link.Href" Match="NavLinkMatch.All">
-                        <span class="oi oi-@link.Icon" aria-hidden="true"></span>@link.Name
-                        <span @onclick="()=>DeleteObjectNavlink(link)">X</span>
-                    </NavLink>
-                    
-
+                <NavLink class="btn btn-sm btn-outline-secondary" href="@link.Href" Match="NavLinkMatch.All">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="oi oi-@link.Icon" aria-hidden="true">@link.Name</span>
+                        </div>
+                        <span class="oi oi-x" @onclick="()=>DeleteObjectNavlink(link)"></span>
+                    </div>
+                </NavLink>
                 }
             </div>
         </ul>
